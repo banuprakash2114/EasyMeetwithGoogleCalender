@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Add your custom styles here -->
+</head>
+<body>
+<h1>Create Google Calendar Event</h1>
+
+<!-- Event creation form -->
+<form id="eventForm">
+    <label for="summary">Event Summary:</label>
+    <input type="text" id="summary" name="summary" required><br><br>
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location"><br><br>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description"></textarea><br><br>
+
+    <label for="startDateTime">Start Date & Time:</label>
+    <input type="datetime-local" id="startDateTime" name="startDateTime" required><br><br>
+
+    <label for="endDateTime">End Date & Time:</label>
+    <input type="datetime-local" id="endDateTime" name="endDateTime" required><br><br>
+
+    <button type="submit">Create Event</button>
+</form>
+
+<div id="responseMessage"></div>
+
+<script>
+    // Handle form submission
+    document.getElementById('eventForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get start and end date-times
+        const startDateTime = document.getElementById('startDateTime').value;
+        const endDateTime = document.getElementById('endDateTime').value;
+
+        // Check if both start and end date-time are filled
+        if (!startDateTime || !endDateTime) {
+            document.getElementById('responseMessage').innerText = 'Please provide both start and end date-times.';
+            return;
+        }
+
+        // Convert to ISO format and add IST (Indian Standard Time) UTC+05:30 offset
+        const startDateTimeISO = new Date(startDateTime).toISOString().replace('Z', '+05:30');
+        const endDateTimeISO = new Date(endDateTime).toISOString().replace('Z', '+05:30');
+
+        // Check if start date is before end date
+        if (new Date(startDateTimeISO) >= new Date(endDateTimeISO)) {
+            document.getElementById('responseMessage').innerText = 'Start time must be before end time.';
+            return;
+        }
+
+        // Collect the form data
+        const eventDetails = {
+            summary: document.getElementById('summary').value,
+            location: document.getElementById('location').value,
+            description: document.getElementById('description').value,
+            start: {
+                dateTime: startDateTimeISO,
+                timeZone: 'Asia/Kolkata'  // IST time zone
+            },
+            end: {
+                dateTime: endDateTimeISO,
+                timeZone: 'Asia/Kolkata'  // IST time zone
+            }
+        };
+
+        // Send the data to the backend
+        fetch('/add-event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(eventDetails)
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Display the response from the server
+            document.getElementById('responseMessage').innerText = data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('responseMessage').innerText = 'Error occurred while creating the event.';
+        });
+    });
+</script>
+</body>
+</html>
