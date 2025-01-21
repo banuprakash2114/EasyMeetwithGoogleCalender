@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videocall App - Home</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      max-width: 900px;
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .form-section {
+      width: 50%;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      border-color: #007BFF;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .image-section {
+      width: 45%;
+      padding: 20px;
+    }
+
+    .image-section img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .loading-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+    }
+
+    .connected-users {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    #userStatus {
+      color: #333;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="loading-container" id="loadingContainer">Loading...</div>
+
+<div class="container">
+  <!-- Form Section -->
+  <div class="form-section">
+    <h1>Welcome to Videocall App</h1>
+    <button type="button" id="newMeetingBtn">Create a New Meeting</button>
+    <p>Enter a meeting ID to join or start a new video call.</p>
+    <form id="meetingForm">
+      <label for="meetingId">Meeting ID</label>
+      <input type="text" id="meetingId" name="meetingId" placeholder="Enter meeting ID" required>
+      <div class="form-buttons">
+        <button type="submit" id="joinMeetingBtn">Join Meeting</button>
+        <a href="javascript:void(0);" onclick="handleLogout()">Logout</a>
+      </div>
+    </form>
+    <div class="connected-users">
+      <strong>Connected Users:</strong> <span id="userStatus">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Image Section -->
+  <div class="image-section">
+    <img src="image/meeting.jpg" alt="Good Meeting">
+  </div>
+</div>
+
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
